@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Typeahead</title>
+    <title>Nick's Project</title>
 </head>
 
 <body>
@@ -74,7 +74,7 @@
     </style>
 
     <div class="container">
-        <h1>Try Typing...</h1>
+        <h1>Try Typing Here...</h1>
         <div class="input-container">
             <input type="text">
             <ul id="list"></ul>
@@ -84,6 +84,33 @@
 </body>
 
 <script>
+
+
+    const characters = [];
+const list = document.getElementById('list');
+const search = document.querySelector('input');
+
+fetch('https://www.swapi.co/api/people')
+    .then(response => response.json())
+    .then(response => characters.push(...response.results))
+
+function filterText() {
+    const filtered = characters
+        .filter(val => val.name.toLowerCase().includes(this.value.toLowerCase()))
+        .map(val => `<li>${val.name}</li>`)
+
+    if (filtered.length) {
+        render(filtered)
+    }
+}
+
+function render(array) {
+    const html = array.join('');
+    list.innerHTML = html;
+}
+
+search.addEventListener('keyup', filterText);
+
 </script>
 
 </html>
